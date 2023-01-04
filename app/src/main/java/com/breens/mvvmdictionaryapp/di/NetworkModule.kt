@@ -1,6 +1,6 @@
 package com.breens.mvvmdictionaryapp.di
 
-import com.breens.mvvmdictionaryapp.home.data.DictionaryApi
+import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
