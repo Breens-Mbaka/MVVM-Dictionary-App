@@ -1,4 +1,4 @@
-package com.breens.mvvmdictionaryapp.home.presentation
+package com.breens.mvvmdictionaryapp.home.presentation.uistate
 
 import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModelItem
 
