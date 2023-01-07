@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.MVVMDictionaryApp" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:statusBarColor">@color/sky_blue</item>
     </style>
 </resources>

@@ -1,7 +1,9 @@
 package com.breens.mvvmdictionaryapp.di
 
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSource
+import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSourceImpl
 import com.breens.mvvmdictionaryapp.home.data.repository.DefinitionRepository
+import com.breens.mvvmdictionaryapp.home.data.repository.DefinitionRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +16,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideDefinitionRepositoryImpl(
+    fun provideDefinitionRepository(
         dictionaryRemoteDataSource: DictionaryRemoteDataSource
     ): DefinitionRepository {
-        return DefinitionRepository(dictionaryRemoteDataSource = dictionaryRemoteDataSource)
+        return DefinitionRepositoryImpl(
+            dictionaryRemoteDataSource =  dictionaryRemoteDataSource
+        )
     }
 }

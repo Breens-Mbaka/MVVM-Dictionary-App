@@ -2,6 +2,8 @@ package com.breens.mvvmdictionaryapp.di
 
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryApi
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSource
+import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSourceImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface RemoteDataSourceModule {
+object RemoteDataSourceModule {
 
     @Provides
     @Singleton
@@ -19,6 +21,6 @@ interface RemoteDataSourceModule {
         dictionaryApi: DictionaryApi,
         @Dispatcher(DictionaryAppDispatchers.IO) ioDispatcher: CoroutineDispatcher
     ): DictionaryRemoteDataSource {
-        return DictionaryRemoteDataSource(dictionaryApi = dictionaryApi, ioDispatcher = ioDispatcher)
+        return DictionaryRemoteDataSourceImpl(dictionaryApi = dictionaryApi, ioDispatcher = ioDispatcher)
     }
 }
