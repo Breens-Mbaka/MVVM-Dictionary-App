@@ -48,12 +48,6 @@ class DefinitionViewModel @Inject constructor(
                             isLoading = false,
                             definition = response.data
                         )
-
-                        _eventFlow.emit(
-                            UiEvents.SnackBarEvent(
-                                message = "Success!"
-                            )
-                        )
                     }
                     is Resource.Error -> {
                         _eventFlow.emit(

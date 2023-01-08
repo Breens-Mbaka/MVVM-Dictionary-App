@@ -101,6 +101,14 @@ fun HomeScreen(definitionViewModel: DefinitionViewModel) {
                             searchWordUiState = searchWordUiState,
                             setWordToBeSearched = { word ->
                                 definitionViewModel.setWordToBeSearched(word)
+                            },
+                            searchWord = {
+                                val word = searchWordUiState.word
+                                if (!word.isNullOrEmpty()) {
+                                    definitionViewModel.getDefinition(
+                                        word = word
+                                    )
+                                }
                             }
                         )
                     }
