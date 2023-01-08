@@ -3,7 +3,7 @@ package com.breens.mvvmdictionaryapp.home.data.remote
 data class DefinitionResponseModel(
     val meanings: List<Meaning>,
     val origin: String,
-    val phonetic: String,
+    val phonetic: String?,
     val phonetics: List<Phonetic>,
     val word: String
 )

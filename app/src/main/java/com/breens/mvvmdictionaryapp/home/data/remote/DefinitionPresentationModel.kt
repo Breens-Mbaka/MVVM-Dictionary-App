@@ -4,7 +4,7 @@ package com.breens.mvvmdictionaryapp.home.data.remote
 data class DefinitionPresentationModelItem(
     val meanings: List<MeaningPresentationModel>,
     val origin: String? = null,
-    val phonetic: String,
+    val phonetic: String?,
     val phonetics: List<PhoneticPresentationModel>,
     val word: String
 )
