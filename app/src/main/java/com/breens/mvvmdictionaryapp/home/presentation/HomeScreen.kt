@@ -16,6 +16,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
@@ -27,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.breens.mvvmdictionaryapp.R
 import com.breens.mvvmdictionaryapp.common.UiEvents
+import com.breens.mvvmdictionaryapp.home.presentation.components.EmptyComponent
+import com.breens.mvvmdictionaryapp.home.presentation.components.LoadingComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.SearchTextFieldComponent
+import com.breens.mvvmdictionaryapp.home.presentation.uistate.SearchWordUiState
 import com.breens.mvvmdictionaryapp.ui.theme.MVVMDictionaryAppTheme
 import kotlinx.coroutines.flow.collectLatest
 
@@ -46,6 +50,8 @@ fun HomeScreen(definitionViewModel: DefinitionViewModel) {
     }
 
     val searchWordUiState = definitionViewModel.searchWordUiState.collectAsState().value
+
+    val definitionUiState = definitionViewModel.definitionUiState.collectAsState().value
 
     MVVMDictionaryAppTheme {
         Scaffold(
@@ -95,27 +101,49 @@ fun HomeScreen(definitionViewModel: DefinitionViewModel) {
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                LazyColumn(contentPadding = PaddingValues(14.dp)) {
-                    item {
-                        SearchTextFieldComponent(
-                            searchWordUiState = searchWordUiState,
-                            setWordToBeSearched = { word ->
-                                definitionViewModel.setWordToBeSearched(word)
-                            },
-                            searchWord = {
-                                val word = searchWordUiState.word
-                                if (!word.isNullOrEmpty()) {
-                                    definitionViewModel.getDefinition(
-                                        word = word
-                                    )
-                                }
-                            }
+                if (definitionUiState.isLoading || definitionUiState.definition?.isEmpty() == true) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        LoadingComponent(
+                            definitionUiState = definitionUiState
+                        )
+
+                        EmptyComponent(
+                            definitionUiState = definitionUiState
                         )
                     }
-                    item {
+                }
+                TextFieldAndRecentWordsComponent(searchWordUiState, definitionViewModel)
+            }
+        }
+    }
+}
+
+@Composable
+fun TextFieldAndRecentWordsComponent(
+    searchWordUiState: SearchWordUiState,
+    definitionViewModel: DefinitionViewModel
+) {
+    LazyColumn(contentPadding = PaddingValues(14.dp)) {
+        item {
+            SearchTextFieldComponent(
+                searchWordUiState = searchWordUiState,
+                setWordToBeSearched = { word ->
+                    definitionViewModel.setWordToBeSearched(word)
+                },
+                searchWord = {
+                    val word = searchWordUiState.word
+                    if (!word.isNullOrEmpty()) {
+                        definitionViewModel.getDefinition(
+                            word = word
+                        )
                     }
                 }
-            }
+            )
+        }
+        item {
         }
     }
 }

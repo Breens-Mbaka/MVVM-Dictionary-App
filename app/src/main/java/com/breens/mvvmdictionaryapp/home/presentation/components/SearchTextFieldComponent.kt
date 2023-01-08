@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.SearchWordUiState
 import com.breens.mvvmdictionaryapp.ui.theme.Shapes
@@ -82,6 +81,7 @@ fun SearchTextFieldComponent(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
+                searchWord()
                 keyboardController?.hide()
                 focusManager.clearFocus()
             }

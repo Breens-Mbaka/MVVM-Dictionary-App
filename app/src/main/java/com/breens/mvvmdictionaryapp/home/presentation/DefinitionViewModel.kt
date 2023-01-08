@@ -31,10 +31,6 @@ class DefinitionViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow: SharedFlow<UiEvents> = _eventFlow.asSharedFlow()
 
-    init {
-        getDefinition(word = "football")
-    }
-
     fun getDefinition(word: String) {
         _definitionUiState.value =
             definitionUiState.value.copy(
@@ -50,6 +46,11 @@ class DefinitionViewModel @Inject constructor(
                         )
                     }
                     is Resource.Error -> {
+                        _definitionUiState.value = definitionUiState.value.copy(
+                            isLoading = false,
+                            definition = emptyList()
+                        )
+
                         _eventFlow.emit(
                             UiEvents.SnackBarEvent(
                                 message = response.message ?: "Something went wrong!"
