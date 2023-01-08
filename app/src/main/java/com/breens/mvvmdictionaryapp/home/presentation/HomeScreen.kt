@@ -36,8 +36,19 @@ import com.breens.mvvmdictionaryapp.ui.theme.MVVMDictionaryAppTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun HomeScreen(definitionViewModel: DefinitionViewModel) {
+fun HomeScreen(
+    definitionViewModel: DefinitionViewModel,
+    navigateToDetailScreen: () -> Unit
+) {
     val scaffoldState = rememberScaffoldState()
+
+    val definitionUiState = definitionViewModel.definitionUiState.collectAsState().value
+
+    if (definitionUiState.canNavigate) {
+        LaunchedEffect(key1 = true) {
+            navigateToDetailScreen()
+        }
+    }
 
     LaunchedEffect(key1 = true) {
         definitionViewModel.eventFlow.collectLatest { event ->
@@ -50,8 +61,6 @@ fun HomeScreen(definitionViewModel: DefinitionViewModel) {
     }
 
     val searchWordUiState = definitionViewModel.searchWordUiState.collectAsState().value
-
-    val definitionUiState = definitionViewModel.definitionUiState.collectAsState().value
 
     MVVMDictionaryAppTheme {
         Scaffold(
@@ -115,7 +124,10 @@ fun HomeScreen(definitionViewModel: DefinitionViewModel) {
                         )
                     }
                 }
-                TextFieldAndRecentWordsComponent(searchWordUiState, definitionViewModel)
+                TextFieldAndRecentWordsComponent(
+                    searchWordUiState = searchWordUiState,
+                    definitionViewModel = definitionViewModel,
+                    navigateToDetailScreen = navigateToDetailScreen)
             }
         }
     }
@@ -124,7 +136,8 @@ fun HomeScreen(definitionViewModel: DefinitionViewModel) {
 @Composable
 fun TextFieldAndRecentWordsComponent(
     searchWordUiState: SearchWordUiState,
-    definitionViewModel: DefinitionViewModel
+    definitionViewModel: DefinitionViewModel,
+    navigateToDetailScreen: () -> Unit
 ) {
     LazyColumn(contentPadding = PaddingValues(14.dp)) {
         item {
@@ -140,6 +153,10 @@ fun TextFieldAndRecentWordsComponent(
                             word = word
                         )
                     }
+                },
+                navigateToDetailScreen = navigateToDetailScreen,
+                showErrorMessage = { errorMessage ->
+                    definitionViewModel.showErrorMessage(errorMessage)
                 }
             )
         }

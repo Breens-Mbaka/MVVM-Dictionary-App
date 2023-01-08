@@ -27,7 +27,9 @@ import com.breens.mvvmdictionaryapp.ui.theme.Shapes
 fun SearchTextFieldComponent(
     searchWordUiState: SearchWordUiState,
     setWordToBeSearched: (String) -> Unit,
-    searchWord: () -> Unit
+    searchWord: () -> Unit,
+    navigateToDetailScreen: () -> Unit,
+    showErrorMessage:(String) -> Unit
 ) {
     val word = remember(key1 = searchWordUiState) {
         searchWordUiState.word
@@ -55,6 +57,11 @@ fun SearchTextFieldComponent(
                     searchWord()
                     keyboardController?.hide()
                     focusManager.clearFocus()
+                    if (!word.isNullOrEmpty()) {
+                        navigateToDetailScreen()
+                    } else {
+                        showErrorMessage("Please enter a word")
+                    }
                 }
             )
         },

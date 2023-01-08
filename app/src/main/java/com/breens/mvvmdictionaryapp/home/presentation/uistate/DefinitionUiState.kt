@@ -5,5 +5,6 @@ import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModel
 data class DefinitionUiState(
     val definition: List<DefinitionPresentationModelItem>? = null,
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val canNavigate: Boolean = false
 )

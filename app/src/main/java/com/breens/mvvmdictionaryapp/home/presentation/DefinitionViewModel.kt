@@ -28,6 +28,9 @@ class DefinitionViewModel @Inject constructor(
     private val _searchWordUiState = MutableStateFlow(SearchWordUiState())
     val searchWordUiState: StateFlow<SearchWordUiState> = _searchWordUiState.asStateFlow()
 
+    private val _canNavigateUiState = MutableStateFlow(CanNavigateUiState())
+    val canNavigateUiState: StateFlow<CanNavigateUiState> = _canNavigateUiState.asStateFlow()
+
     private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow: SharedFlow<UiEvents> = _eventFlow.asSharedFlow()
 
@@ -36,19 +39,31 @@ class DefinitionViewModel @Inject constructor(
             definitionUiState.value.copy(
                 isLoading = true
             )
+
+        _canNavigateUiState.value =
+            canNavigateUiState.value.copy(
+                canNavigate = false
+            )
         viewModelScope.launch {
             definitionRepositoryImpl.getDefinition(word = word).collect { response ->
                 when (response) {
                     is Resource.Success -> {
                         _definitionUiState.value = definitionUiState.value.copy(
                             isLoading = false,
-                            definition = response.data
+                            definition = response.data,
+                            canNavigate = true
                         )
+
+                        _canNavigateUiState.value =
+                            canNavigateUiState.value.copy(
+                                canNavigate = true
+                            )
                     }
                     is Resource.Error -> {
                         _definitionUiState.value = definitionUiState.value.copy(
                             isLoading = false,
-                            definition = emptyList()
+                            definition = emptyList(),
+                            canNavigate = false
                         )
 
                         _eventFlow.emit(
@@ -56,12 +71,27 @@ class DefinitionViewModel @Inject constructor(
                                 message = response.message ?: "Something went wrong!"
                             )
                         )
+
+                        _canNavigateUiState.value =
+                            canNavigateUiState.value.copy(
+                                canNavigate = false
+                            )
                     }
                     else -> {
                         definitionUiState
                     }
                 }
             }
+        }
+    }
+
+    fun showErrorMessage(message: String) {
+        viewModelScope.launch {
+            _eventFlow.emit(
+                UiEvents.SnackBarEvent(
+                    message = message
+                )
+            )
         }
     }
 
@@ -72,3 +102,7 @@ class DefinitionViewModel @Inject constructor(
             )
     }
 }
+
+data class CanNavigateUiState(
+    val canNavigate: Boolean = false
+)
