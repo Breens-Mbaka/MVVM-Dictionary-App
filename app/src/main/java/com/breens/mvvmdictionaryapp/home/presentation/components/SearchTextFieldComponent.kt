@@ -28,7 +28,6 @@ fun SearchTextFieldComponent(
     searchWordUiState: SearchWordUiState,
     setWordToBeSearched: (String) -> Unit,
     searchWord: () -> Unit,
-    navigateToDetailScreen: () -> Unit,
     showErrorMessage:(String) -> Unit
 ) {
     val word = remember(key1 = searchWordUiState) {
@@ -54,14 +53,12 @@ fun SearchTextFieldComponent(
                 imageVector = Icons.Outlined.Search,
                 contentDescription = "Search",
                 modifier = Modifier.clickable {
+                    if (word.isNullOrEmpty()) {
+                        showErrorMessage("Please enter a word")
+                    }
                     searchWord()
                     keyboardController?.hide()
                     focusManager.clearFocus()
-                    if (!word.isNullOrEmpty()) {
-                        navigateToDetailScreen()
-                    } else {
-                        showErrorMessage("Please enter a word")
-                    }
                 }
             )
         },
@@ -88,6 +85,9 @@ fun SearchTextFieldComponent(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
+                if (word.isNullOrEmpty()) {
+                    showErrorMessage("Please enter a word")
+                }
                 searchWord()
                 keyboardController?.hide()
                 focusManager.clearFocus()

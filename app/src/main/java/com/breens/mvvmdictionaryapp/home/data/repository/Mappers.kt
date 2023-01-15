@@ -11,11 +11,11 @@ import com.breens.mvvmdictionaryapp.home.data.remote.PhoneticPresentationModel
 
 internal fun DefinitionResponseModel.toPresentation() =
     DefinitionPresentationModelItem(
-        meanings = meanings.map { meaning ->
+        meanings = meanings?.map { meaning ->
             meaning.toPresentation()
         },
         phonetic = phonetic,
-        phonetics = phonetics.map { phonetic ->
+        phonetics = phonetics?.map { phonetic ->
             phonetic.toPresentation()
         },
         word = word
@@ -23,7 +23,7 @@ internal fun DefinitionResponseModel.toPresentation() =
 
 private fun Meaning.toPresentation() =
     MeaningPresentationModel(
-        definitions = definitions.map { definition ->
+        definitions = definitions?.map { definition ->
             definition.toPresentation()
         },
         partOfSpeech = partOfSpeech

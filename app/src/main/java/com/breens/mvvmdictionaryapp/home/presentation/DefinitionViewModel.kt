@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.breens.mvvmdictionaryapp.common.Resource
 import com.breens.mvvmdictionaryapp.common.UiEvents
 import com.breens.mvvmdictionaryapp.home.data.repository.DefinitionRepositoryImpl
+import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionTypeUiState
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.SearchWordUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,21 +29,18 @@ class DefinitionViewModel @Inject constructor(
     private val _searchWordUiState = MutableStateFlow(SearchWordUiState())
     val searchWordUiState: StateFlow<SearchWordUiState> = _searchWordUiState.asStateFlow()
 
-    private val _canNavigateUiState = MutableStateFlow(CanNavigateUiState())
-    val canNavigateUiState: StateFlow<CanNavigateUiState> = _canNavigateUiState.asStateFlow()
+    private val _definitionTypeUiState = MutableStateFlow(DefinitionTypeUiState())
+    val definitionTypeUiState: StateFlow<DefinitionTypeUiState> = _definitionTypeUiState.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow: SharedFlow<UiEvents> = _eventFlow.asSharedFlow()
+
+
 
     fun getDefinition(word: String) {
         _definitionUiState.value =
             definitionUiState.value.copy(
                 isLoading = true
-            )
-
-        _canNavigateUiState.value =
-            canNavigateUiState.value.copy(
-                canNavigate = false
             )
         viewModelScope.launch {
             definitionRepositoryImpl.getDefinition(word = word).collect { response ->
@@ -53,11 +51,6 @@ class DefinitionViewModel @Inject constructor(
                             definition = response.data,
                             canNavigate = true
                         )
-
-                        _canNavigateUiState.value =
-                            canNavigateUiState.value.copy(
-                                canNavigate = true
-                            )
                     }
                     is Resource.Error -> {
                         _definitionUiState.value = definitionUiState.value.copy(
@@ -71,11 +64,6 @@ class DefinitionViewModel @Inject constructor(
                                 message = response.message ?: "Something went wrong!"
                             )
                         )
-
-                        _canNavigateUiState.value =
-                            canNavigateUiState.value.copy(
-                                canNavigate = false
-                            )
                     }
                     else -> {
                         definitionUiState
@@ -95,6 +83,12 @@ class DefinitionViewModel @Inject constructor(
         }
     }
 
+    fun setDefinitionType() {
+        val d = definitionUiState.value.definition?.map {
+            it
+        }
+    }
+
     fun setWordToBeSearched(word: String) {
         _searchWordUiState.value =
             searchWordUiState.value.copy(
@@ -102,7 +96,3 @@ class DefinitionViewModel @Inject constructor(
             )
     }
 }
-
-data class CanNavigateUiState(
-    val canNavigate: Boolean = false
-)

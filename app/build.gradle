@@ -96,6 +96,13 @@ dependencies {
 
     // NetworkResponseAdapter
     implementation "com.github.haroldadmin:NetworkResponseAdapter:5.0.0"
+
+    // Material Icons
+    implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+
+    // Accompanist
+    implementation ("com.google.accompanist:accompanist-pager:0.25.1")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.25.0")
 }
 
 kapt {

@@ -102,8 +102,7 @@ fun HomeScreen(
                     },
                     backgroundColor = Color(0xFF4C7AF2)
                 )
-            },
-            backgroundColor = Color(0xFFF5F5F5)
+            }
         ) { paddingValues ->
             Box(
                 modifier = Modifier
@@ -126,8 +125,8 @@ fun HomeScreen(
                 }
                 TextFieldAndRecentWordsComponent(
                     searchWordUiState = searchWordUiState,
-                    definitionViewModel = definitionViewModel,
-                    navigateToDetailScreen = navigateToDetailScreen)
+                    definitionViewModel = definitionViewModel
+                )
             }
         }
     }
@@ -136,8 +135,7 @@ fun HomeScreen(
 @Composable
 fun TextFieldAndRecentWordsComponent(
     searchWordUiState: SearchWordUiState,
-    definitionViewModel: DefinitionViewModel,
-    navigateToDetailScreen: () -> Unit
+    definitionViewModel: DefinitionViewModel
 ) {
     LazyColumn(contentPadding = PaddingValues(14.dp)) {
         item {
@@ -154,7 +152,6 @@ fun TextFieldAndRecentWordsComponent(
                         )
                     }
                 },
-                navigateToDetailScreen = navigateToDetailScreen,
                 showErrorMessage = { errorMessage ->
                     definitionViewModel.showErrorMessage(errorMessage)
                 }
