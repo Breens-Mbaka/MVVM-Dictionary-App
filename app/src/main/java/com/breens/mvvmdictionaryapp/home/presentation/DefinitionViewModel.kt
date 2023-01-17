@@ -7,6 +7,7 @@ import com.breens.mvvmdictionaryapp.common.UiEvents
 import com.breens.mvvmdictionaryapp.home.data.repository.DefinitionRepositoryImpl
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionTypeUiState
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
+import com.breens.mvvmdictionaryapp.home.presentation.uistate.PlayAudioUiState
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.SearchWordUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -35,7 +36,8 @@ class DefinitionViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow: SharedFlow<UiEvents> = _eventFlow.asSharedFlow()
 
-
+    private val _playAudioUiState = MutableStateFlow(PlayAudioUiState())
+    val playAudioUiState:StateFlow<PlayAudioUiState> = _playAudioUiState.asStateFlow()
 
     fun getDefinition(word: String) {
         _definitionUiState.value =
@@ -83,9 +85,24 @@ class DefinitionViewModel @Inject constructor(
         }
     }
 
-    fun setDefinitionType() {
-        val d = definitionUiState.value.definition?.map {
-            it
+    fun playAudio(audioUrl: String?) {
+        viewModelScope.launch {
+            if (!audioUrl.isNullOrEmpty()) {
+                _playAudioUiState.value =
+                    playAudioUiState.value.copy(
+                        isPlaying = true
+                    )
+            } else {
+                _playAudioUiState.value =
+                    playAudioUiState.value.copy(
+                        isPlaying = false
+                    )
+                _eventFlow.emit(
+                    UiEvents.SnackBarEvent(
+                        message = "Sorry no audio file was found"
+                    )
+                )
+            }
         }
     }
 
