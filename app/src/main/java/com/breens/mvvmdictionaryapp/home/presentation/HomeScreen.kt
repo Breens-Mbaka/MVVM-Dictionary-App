@@ -29,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.breens.mvvmdictionaryapp.R
 import com.breens.mvvmdictionaryapp.common.UiEvents
 import com.breens.mvvmdictionaryapp.home.data.remote.MeaningPresentationModel
-import com.breens.mvvmdictionaryapp.home.presentation.components.DefinitionsComponent
+import com.breens.mvvmdictionaryapp.home.presentation.components.PartsOfSpeechDefinitionsComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.EmptyComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.LoadingComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.PronunciationComponent
@@ -112,7 +112,7 @@ fun HomeScreen(
                     )
                 },
 
-                definitions = definitions,
+                meanings = definitions,
 
                 paddingValues = paddingValues
             )
@@ -126,7 +126,7 @@ fun HomeContent(
     typedWord: String,
     setWordToBeSearched: (String) -> Unit,
     searchWord: () -> Unit,
-    definitions: List<MeaningPresentationModel>,
+    meanings: List<MeaningPresentationModel>,
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
     Box(
@@ -174,12 +174,12 @@ fun HomeContent(
                     )
                 }
 
-                items(definitions) { meaning ->
+                items(meanings) { meaning ->
                     Spacer(
                         modifier = Modifier.height(10.dp)
                     )
 
-                    DefinitionsComponent(
+                    PartsOfSpeechDefinitionsComponent(
                         partsOfSpeech = meaning.partOfSpeech ?: "",
                         definitions = meaning.definitions ?: emptyList()
                     )

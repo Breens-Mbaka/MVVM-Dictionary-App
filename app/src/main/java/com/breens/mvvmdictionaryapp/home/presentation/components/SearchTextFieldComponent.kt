@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import com.breens.mvvmdictionaryapp.ui.theme.Shapes
 
@@ -36,7 +38,9 @@ fun SearchTextFieldComponent(
         onValueChange = { wordEntered ->
             setWordToBeSearched(wordEntered)
         },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics { contentDescription = "SearchTextField" },
         placeholder = {
             Text("Search here")
         },
@@ -57,7 +61,7 @@ fun SearchTextFieldComponent(
             if (typedWord.isNotEmpty()) {
                 Icon(
                     imageVector = Icons.Outlined.Clear,
-                    contentDescription = "Search",
+                    contentDescription = "Clear Icon",
                     modifier = Modifier.clickable {
                         setWordToBeSearched("")
                     }

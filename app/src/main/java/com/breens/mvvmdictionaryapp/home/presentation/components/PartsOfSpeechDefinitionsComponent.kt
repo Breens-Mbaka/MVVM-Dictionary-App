@@ -6,6 +6,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
@@ -16,7 +18,7 @@ import com.breens.mvvmdictionaryapp.R
 import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModel
 
 @Composable
-fun DefinitionsComponent(
+fun PartsOfSpeechDefinitionsComponent(
     partsOfSpeech: String,
     definitions: List<DefinitionPresentationModel>?
 ) {
@@ -46,7 +48,9 @@ fun DefinitionsComponent(
                         append(meaning.definition ?: "")
                     }
                 },
-                modifier = Modifier.padding(top = 5.dp)
+                modifier = Modifier
+                    .padding(top = 5.dp)
+                    .semantics { contentDescription = "definition" }
             )
         }
     }

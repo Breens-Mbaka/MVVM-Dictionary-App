@@ -4,7 +4,10 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
@@ -23,7 +26,8 @@ fun PartsOfSpeechComponent(
     Button(
         onClick = {},
         elevation = ButtonDefaults.elevation(0.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = color)
+        colors = ButtonDefaults.buttonColors(backgroundColor = color),
+        modifier = Modifier.semantics { contentDescription = "PartsOfSpeech" }
     ) {
         Text(
             text = buildAnnotatedString {
