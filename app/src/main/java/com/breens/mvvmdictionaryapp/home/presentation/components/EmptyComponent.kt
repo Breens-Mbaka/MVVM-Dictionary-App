@@ -22,21 +22,29 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.breens.mvvmdictionaryapp.R
-import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
+import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModelItem
 
 @Composable
-fun EmptyComponent(definitionUiState: DefinitionUiState) {
-    if (!definitionUiState.isLoading && definitionUiState.definition.isNullOrEmpty()) {
+fun EmptyComponent(
+    isLoading: Boolean,
+    definition: List<DefinitionPresentationModelItem>?
+) {
+
+    if (!isLoading && definition.isNullOrEmpty()) {
+
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 EmptyAnimation()
+
                 Spacer(modifier = Modifier.height(8.dp))
+
                 Text(
                     text = "Sorry the definition wasn't found...",
                     fontFamily = FontFamily(Font(R.font.nunitosans_light)),
@@ -51,6 +59,7 @@ fun EmptyComponent(definitionUiState: DefinitionUiState) {
 @Composable
 fun EmptyAnimation() {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.empty))
+
     LottieAnimation(
         modifier = Modifier
             .fillMaxWidth()

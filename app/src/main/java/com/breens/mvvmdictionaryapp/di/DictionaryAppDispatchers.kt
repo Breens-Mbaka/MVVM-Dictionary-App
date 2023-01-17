@@ -8,5 +8,5 @@ import kotlin.annotation.AnnotationRetention.RUNTIME
 annotation class Dispatcher(val dictionaryAppDispatchers: DictionaryAppDispatchers)
 
 enum class DictionaryAppDispatchers {
-  IO
+    IO
 }

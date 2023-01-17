@@ -22,21 +22,25 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.breens.mvvmdictionaryapp.R
-import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
 
 @Composable
-fun LoadingComponent(definitionUiState: DefinitionUiState) {
-    if (definitionUiState.isLoading) {
+fun LoadingComponent(isLoading: Boolean) {
+
+    if (isLoading) {
+
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 LoadingAnimation()
+
                 Spacer(modifier = Modifier.height(8.dp))
+
                 Text(
                     text = "Please wait while we the definition...",
                     fontFamily = FontFamily(Font(R.font.nunitosans_light)),

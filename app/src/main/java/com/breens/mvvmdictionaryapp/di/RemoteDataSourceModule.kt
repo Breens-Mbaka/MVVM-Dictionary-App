@@ -3,7 +3,6 @@ package com.breens.mvvmdictionaryapp.di
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryApi
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSource
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSourceImpl
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,6 +20,9 @@ object RemoteDataSourceModule {
         dictionaryApi: DictionaryApi,
         @Dispatcher(DictionaryAppDispatchers.IO) ioDispatcher: CoroutineDispatcher
     ): DictionaryRemoteDataSource {
-        return DictionaryRemoteDataSourceImpl(dictionaryApi = dictionaryApi, ioDispatcher = ioDispatcher)
+        return DictionaryRemoteDataSourceImpl(
+            dictionaryApi = dictionaryApi,
+            ioDispatcher = ioDispatcher
+        )
     }
 }

@@ -1,7 +1,6 @@
 package com.breens.mvvmdictionaryapp.di
 
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSource
-import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSourceImpl
 import com.breens.mvvmdictionaryapp.home.data.repository.DefinitionRepository
 import com.breens.mvvmdictionaryapp.home.data.repository.DefinitionRepositoryImpl
 import dagger.Module
@@ -20,7 +19,7 @@ object RepositoryModule {
         dictionaryRemoteDataSource: DictionaryRemoteDataSource
     ): DefinitionRepository {
         return DefinitionRepositoryImpl(
-            dictionaryRemoteDataSource =  dictionaryRemoteDataSource
+            dictionaryRemoteDataSource = dictionaryRemoteDataSource
         )
     }
 }

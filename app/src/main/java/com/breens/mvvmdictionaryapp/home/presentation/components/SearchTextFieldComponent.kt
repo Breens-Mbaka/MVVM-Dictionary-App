@@ -12,39 +12,31 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
-import com.breens.mvvmdictionaryapp.home.presentation.uistate.SearchWordUiState
 import com.breens.mvvmdictionaryapp.ui.theme.Shapes
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchTextFieldComponent(
-    searchWordUiState: SearchWordUiState,
     setWordToBeSearched: (String) -> Unit,
     searchWord: () -> Unit,
-    showErrorMessage:(String) -> Unit
+    typedWord: String
 ) {
-    val word = remember(key1 = searchWordUiState) {
-        searchWordUiState.word
-    }
-
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val focusManager = LocalFocusManager.current
 
     OutlinedTextField(
-        value = word ?: "",
-        onValueChange = { enteredWord ->
-            setWordToBeSearched(enteredWord)
+        value = typedWord,
+        onValueChange = { wordEntered ->
+            setWordToBeSearched(wordEntered)
         },
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         placeholder = {
             Text("Search here")
         },
@@ -53,17 +45,16 @@ fun SearchTextFieldComponent(
                 imageVector = Icons.Outlined.Search,
                 contentDescription = "Search",
                 modifier = Modifier.clickable {
-                    if (word.isNullOrEmpty()) {
-                        showErrorMessage("Please enter a word")
-                    }
                     searchWord()
+
                     keyboardController?.hide()
+
                     focusManager.clearFocus()
                 }
             )
         },
         trailingIcon = {
-            if (!word.isNullOrEmpty()) {
+            if (typedWord.isNotEmpty()) {
                 Icon(
                     imageVector = Icons.Outlined.Clear,
                     contentDescription = "Search",
@@ -77,7 +68,9 @@ fun SearchTextFieldComponent(
         colors = TextFieldDefaults
             .textFieldColors(
                 backgroundColor = Color(0xFFEBE7E7),
+
                 unfocusedIndicatorColor = Color(0xFFEBE7E7),
+
                 focusedIndicatorColor = Color(0xFF4C7AF2)
             ),
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -85,11 +78,10 @@ fun SearchTextFieldComponent(
         ),
         keyboardActions = KeyboardActions(
             onSearch = {
-                if (word.isNullOrEmpty()) {
-                    showErrorMessage("Please enter a word")
-                }
                 searchWord()
+
                 keyboardController?.hide()
+
                 focusManager.clearFocus()
             }
         )

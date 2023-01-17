@@ -5,10 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.breens.mvvmdictionaryapp.common.Resource
 import com.breens.mvvmdictionaryapp.common.UiEvents
 import com.breens.mvvmdictionaryapp.home.data.repository.DefinitionRepositoryImpl
-import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionTypeUiState
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
-import com.breens.mvvmdictionaryapp.home.presentation.uistate.PlayAudioUiState
-import com.breens.mvvmdictionaryapp.home.presentation.uistate.SearchWordUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,89 +24,66 @@ class DefinitionViewModel @Inject constructor(
     private val _definitionUiState = MutableStateFlow(DefinitionUiState())
     val definitionUiState: StateFlow<DefinitionUiState> = _definitionUiState.asStateFlow()
 
-    private val _searchWordUiState = MutableStateFlow(SearchWordUiState())
-    val searchWordUiState: StateFlow<SearchWordUiState> = _searchWordUiState.asStateFlow()
-
-    private val _definitionTypeUiState = MutableStateFlow(DefinitionTypeUiState())
-    val definitionTypeUiState: StateFlow<DefinitionTypeUiState> = _definitionTypeUiState.asStateFlow()
-
     private val _eventFlow = MutableSharedFlow<UiEvents>()
     val eventFlow: SharedFlow<UiEvents> = _eventFlow.asSharedFlow()
-
-    private val _playAudioUiState = MutableStateFlow(PlayAudioUiState())
-    val playAudioUiState:StateFlow<PlayAudioUiState> = _playAudioUiState.asStateFlow()
 
     fun getDefinition(word: String) {
         _definitionUiState.value =
             definitionUiState.value.copy(
                 isLoading = true
             )
-        viewModelScope.launch {
-            definitionRepositoryImpl.getDefinition(word = word).collect { response ->
-                when (response) {
-                    is Resource.Success -> {
-                        _definitionUiState.value = definitionUiState.value.copy(
-                            isLoading = false,
-                            definition = response.data,
-                            canNavigate = true
-                        )
-                    }
-                    is Resource.Error -> {
-                        _definitionUiState.value = definitionUiState.value.copy(
-                            isLoading = false,
-                            definition = emptyList(),
-                            canNavigate = false
-                        )
-
-                        _eventFlow.emit(
-                            UiEvents.SnackBarEvent(
-                                message = response.message ?: "Something went wrong!"
+        if (word.isNotEmpty()) {
+            viewModelScope.launch {
+                definitionRepositoryImpl.getDefinition(word = word).collect { response ->
+                    when (response) {
+                        is Resource.Success -> {
+                            _definitionUiState.value = definitionUiState.value.copy(
+                                isLoading = false,
+                                definition = response.data
                             )
-                        )
-                    }
-                    else -> {
-                        definitionUiState
+                        }
+                        is Resource.Error -> {
+                            _definitionUiState.value = definitionUiState.value.copy(
+                                isLoading = false,
+                                definition = emptyList()
+                            )
+
+                            _eventFlow.emit(
+                                UiEvents.SnackBarEvent(
+                                    message = response.message ?: "Something went wrong!"
+                                )
+                            )
+                        }
+                        else -> {
+                            definitionUiState
+                        }
                     }
                 }
             }
-        }
-    }
-
-    fun showErrorMessage(message: String) {
-        viewModelScope.launch {
-            _eventFlow.emit(
-                UiEvents.SnackBarEvent(
-                    message = message
-                )
-            )
-        }
-    }
-
-    fun playAudio(audioUrl: String?) {
-        viewModelScope.launch {
-            if (!audioUrl.isNullOrEmpty()) {
-                _playAudioUiState.value =
-                    playAudioUiState.value.copy(
-                        isPlaying = true
-                    )
-            } else {
-                _playAudioUiState.value =
-                    playAudioUiState.value.copy(
-                        isPlaying = false
-                    )
-                _eventFlow.emit(
-                    UiEvents.SnackBarEvent(
-                        message = "Sorry no audio file was found"
-                    )
-                )
-            }
+        } else {
+            showErrorMessage()
         }
     }
 
     fun setWordToBeSearched(word: String) {
-        _searchWordUiState.value =
-            searchWordUiState.value.copy(
-                word = word
+        _definitionUiState.value =
+            definitionUiState.value.copy(
+                typedWord = word
             )
+    }
+
+    private fun showErrorMessage() {
+        viewModelScope.launch {
+            _definitionUiState.value =
+                definitionUiState.value.copy(
+                    isLoading = false
+                )
+
+            _eventFlow.emit(
+                UiEvents.SnackBarEvent(
+                    message = "Please enter a word"
+                )
+            )
+        }
     }
 }
