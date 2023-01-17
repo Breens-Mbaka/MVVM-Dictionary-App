@@ -98,6 +98,9 @@ dependencies {
 
     // Material Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
+
+    // Splash Screen
+    implementation "androidx.core:core-splashscreen:1.0.0"
 }
 
 kapt {

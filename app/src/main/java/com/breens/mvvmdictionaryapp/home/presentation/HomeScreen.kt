@@ -29,9 +29,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.breens.mvvmdictionaryapp.R
 import com.breens.mvvmdictionaryapp.common.UiEvents
 import com.breens.mvvmdictionaryapp.home.data.remote.MeaningPresentationModel
-import com.breens.mvvmdictionaryapp.home.presentation.components.PartsOfSpeechDefinitionsComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.EmptyComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.LoadingComponent
+import com.breens.mvvmdictionaryapp.home.presentation.components.PartsOfSpeechDefinitionsComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.PronunciationComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.SearchTextFieldComponent
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
