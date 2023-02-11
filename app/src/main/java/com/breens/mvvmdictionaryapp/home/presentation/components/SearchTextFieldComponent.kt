@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
-import com.breens.mvvmdictionaryapp.ui.theme.Shapes
+import com.breens.mvvmdictionaryapp.home.ui.theme.Shapes
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -47,14 +47,7 @@ fun SearchTextFieldComponent(
         leadingIcon = {
             Icon(
                 imageVector = Icons.Outlined.Search,
-                contentDescription = "Search",
-                modifier = Modifier.clickable {
-                    searchWord()
-
-                    keyboardController?.hide()
-
-                    focusManager.clearFocus()
-                }
+                contentDescription = "Search"
             )
         },
         trailingIcon = {

@@ -44,7 +44,7 @@ fun LoadingComponent(isLoading: Boolean) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Please wait while we the definition...",
+                    text = "Please wait while we get the definition...",
                     fontFamily = FontFamily(Font(R.font.nunitosans_light)),
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center

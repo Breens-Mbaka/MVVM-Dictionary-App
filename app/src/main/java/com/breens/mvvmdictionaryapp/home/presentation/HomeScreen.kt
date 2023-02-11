@@ -35,7 +35,7 @@ import com.breens.mvvmdictionaryapp.home.presentation.components.PartsOfSpeechDe
 import com.breens.mvvmdictionaryapp.home.presentation.components.PronunciationComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.SearchTextFieldComponent
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
-import com.breens.mvvmdictionaryapp.ui.theme.MVVMDictionaryAppTheme
+import com.breens.mvvmdictionaryapp.home.ui.theme.MVVMDictionaryAppTheme
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -56,7 +56,7 @@ fun HomeScreen(
 
     val definitionUiState = definitionViewModel.definitionUiState.collectAsState().value
 
-    val typedWord = definitionUiState.typedWord ?: ""
+    val typedWord = definitionViewModel.typedWord.value
 
     val definitions =
         if (definitionUiState.definition?.isNotEmpty() == true) definitionUiState.definition[0].meanings
@@ -103,13 +103,11 @@ fun HomeScreen(
                 typedWord = typedWord,
 
                 setWordToBeSearched = { word ->
-                    definitionViewModel.setWordToBeSearched(word)
+                    definitionViewModel.setTypedWord(typedWord = word)
                 },
 
                 searchWord = {
-                    definitionViewModel.getDefinition(
-                        word = typedWord
-                    )
+                    definitionViewModel.getDefinition()
                 },
 
                 meanings = definitions,

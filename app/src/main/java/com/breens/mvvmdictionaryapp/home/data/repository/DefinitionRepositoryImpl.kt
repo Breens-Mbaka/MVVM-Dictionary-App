@@ -1,20 +1,24 @@
 package com.breens.mvvmdictionaryapp.home.data.repository
 
 import com.breens.mvvmdictionaryapp.common.Resource
+import com.breens.mvvmdictionaryapp.di.IoDispatcher
 import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModelItem
-import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryRemoteDataSource
+import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryApi
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class DefinitionRepositoryImpl @Inject constructor(
-    private val dictionaryRemoteDataSource: DictionaryRemoteDataSource
+    private val dictionaryApi: DictionaryApi,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : DefinitionRepository {
     override suspend fun getDefinition(word: String): Flow<Resource<List<DefinitionPresentationModelItem>>> =
         flow {
             emit(Resource.Loading())
-            when (val response = dictionaryRemoteDataSource.getDefinition(word = word)) {
+            when (val response = dictionaryApi.getDefinition(word = word)) {
                 is NetworkResponse.Success -> {
                     val definitionResponse = response.body.map { definitionResponseModel ->
                         definitionResponseModel.toPresentation()
@@ -29,11 +33,15 @@ class DefinitionRepositoryImpl @Inject constructor(
                     )
                 }
                 is NetworkResponse.NetworkError -> {
-                    emit(Resource.Error(message = "Please check if you're connected to the internet"))
+                    emit(
+                        Resource.Error(
+                            message = "Please check if you're connected to the internet or try again later"
+                        )
+                    )
                 }
                 is NetworkResponse.UnknownError -> {
                     emit(Resource.Error(message = "Unknown error occurred while fetching definition"))
                 }
             }
-        }
+        }.flowOn(ioDispatcher)
 }
