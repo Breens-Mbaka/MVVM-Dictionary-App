@@ -70,9 +70,7 @@ fun SearchTextFieldComponent(
 
                 focusedIndicatorColor = Color(0xFF4C7AF2)
             ),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Search,
-        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(
             onSearch = {
                 searchWord()
