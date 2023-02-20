@@ -15,12 +15,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.breens.mvvmdictionaryapp.R
-import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModel
+import com.breens.mvvmdictionaryapp.home.data.remote.Definition
 
 @Composable
 fun PartsOfSpeechDefinitionsComponent(
     partsOfSpeech: String,
-    definitions: List<DefinitionPresentationModel>?
+    definitions: List<Definition>?
 ) {
     Column {
         PartsOfSpeechComponent(

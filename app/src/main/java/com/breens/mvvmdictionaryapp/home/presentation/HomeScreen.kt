@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.breens.mvvmdictionaryapp.R
 import com.breens.mvvmdictionaryapp.common.UiEvents
-import com.breens.mvvmdictionaryapp.home.data.remote.MeaningPresentationModel
+import com.breens.mvvmdictionaryapp.home.data.remote.Meaning
 import com.breens.mvvmdictionaryapp.home.presentation.components.EmptyComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.LoadingComponent
 import com.breens.mvvmdictionaryapp.home.presentation.components.PartsOfSpeechDefinitionsComponent
@@ -124,7 +124,7 @@ fun HomeContent(
     typedWord: String,
     setWordToBeSearched: (String) -> Unit,
     searchWord: () -> Unit,
-    meanings: List<MeaningPresentationModel>,
+    meanings: List<Meaning>,
     paddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
     Box(

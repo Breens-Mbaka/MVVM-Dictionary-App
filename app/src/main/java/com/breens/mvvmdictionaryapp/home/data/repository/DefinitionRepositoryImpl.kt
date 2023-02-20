@@ -2,7 +2,7 @@ package com.breens.mvvmdictionaryapp.home.data.repository
 
 import com.breens.mvvmdictionaryapp.common.Resource
 import com.breens.mvvmdictionaryapp.di.IoDispatcher
-import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModelItem
+import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionResponseModel
 import com.breens.mvvmdictionaryapp.home.data.remote.DictionaryApi
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
@@ -15,14 +15,13 @@ class DefinitionRepositoryImpl @Inject constructor(
     private val dictionaryApi: DictionaryApi,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : DefinitionRepository {
-    override suspend fun getDefinition(word: String): Flow<Resource<List<DefinitionPresentationModelItem>>> =
+    override suspend fun getDefinition(word: String): Flow<Resource<List<DefinitionResponseModel>>> =
         flow {
             emit(Resource.Loading())
             when (val response = dictionaryApi.getDefinition(word = word)) {
                 is NetworkResponse.Success -> {
-                    val definitionResponse = response.body.map { definitionResponseModel ->
-                        definitionResponseModel.toPresentation()
-                    }
+                    val definitionResponse = response.body
+
                     emit(Resource.Success(data = definitionResponse))
                 }
                 is NetworkResponse.ServerError -> {

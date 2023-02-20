@@ -24,12 +24,12 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.breens.mvvmdictionaryapp.R
-import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionPresentationModelItem
+import com.breens.mvvmdictionaryapp.home.data.remote.DefinitionResponseModel
 
 @Composable
 fun EmptyComponent(
     isLoading: Boolean,
-    definition: List<DefinitionPresentationModelItem>?
+    definition: List<DefinitionResponseModel>?
 ) {
 
     if (!isLoading && definition.isNullOrEmpty()) {
