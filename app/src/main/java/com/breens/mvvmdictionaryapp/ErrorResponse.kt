@@ -1,4 +1,4 @@
-package com.breens.mvvmdictionaryapp.home.data.remote
+package com.breens.mvvmdictionaryapp
 
 data class ErrorResponse(
     val message: String,

@@ -12,9 +12,9 @@ import androidx.compose.ui.test.onLast
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.breens.mvvmdictionaryapp.home.presentation.HomeContent
+import com.breens.mvvmdictionaryapp.home.presentation.screens.HomeContent
 import com.breens.mvvmdictionaryapp.home.presentation.uistate.DefinitionUiState
-import com.breens.mvvmdictionaryapp.home.ui.theme.MVVMDictionaryAppTheme
+import com.breens.mvvmdictionaryapp.ui.theme.MVVMDictionaryAppTheme
 import org.junit.Rule
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.breens.mvvmdictionaryapp.home.ui.theme
+package com.breens.mvvmdictionaryapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
