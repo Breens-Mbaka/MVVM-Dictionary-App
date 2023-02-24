@@ -3,9 +3,8 @@ package com.breens.mvvmdictionaryapp.home
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.rememberNavController
+import com.breens.mvvmdictionaryapp.home.presentation.HomeScreen
 import com.breens.mvvmdictionaryapp.home.ui.theme.MVVMDictionaryAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,19 +16,9 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
-            DictionaryApp()
-        }
-    }
-
-    @Composable
-    fun DictionaryApp() {
-        MVVMDictionaryAppTheme {
-
-            val navHostController = rememberNavController()
-
-            DictionaryAppNavHost(
-                navHostController = navHostController
-            )
+            MVVMDictionaryAppTheme {
+                HomeScreen()
+            }
         }
     }
 }
