@@ -10,7 +10,7 @@ Currently available on the Play Store
 <img src="screenshots/dictionary.png" width="250"/>
 
 ### Architecture
-The app was primary built with the MVVM design pattern in mind. I decoupled the business logic from the UI and thus lead to benefits like:
+To decouple the business logic from the UI I opted to use the MVVM design pattern that lead to the codebase seeing benefits like:
 
 * Increased testability of the UI and business logic separately
 * Increased maintainability and readability due to the less decoupling of classes
