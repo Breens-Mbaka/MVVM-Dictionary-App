@@ -1,6 +1,6 @@
 # Your Dictionary
 A dictionary application to allow you find definition of words and enhance your vocabulary
-Currently available on the Play Store
+Check it out on PlayStore
 
 <a href='https://play.google.com/store/apps/details?id=com.breens.mvvmdictionaryapp'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height='80px'/></a>
 
